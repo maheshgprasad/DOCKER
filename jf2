@@ -1,0 +1,63 @@
+pipeline {
+    agent {
+        node {
+            label 'master'
+        }
+    }
+
+    stages {
+
+        stage('Start') {
+            steps {
+                sh 'echo "Pipeline Initiated" '
+            }
+        }
+        stage('Clear Workspace') {
+            steps {
+                sh 'sudo rm -rf *'
+                sh 'echo "Workspace Cleared"'
+            }
+        }
+        stage('Git Clone') {
+            steps {
+                sh 'sudo git clone https://github.com/maheshgprasad/docker '
+                sh 'cd ./docker'
+            }
+        }
+        stage('Traverse') {
+            steps {
+                dir (./docker) {
+                sh 'ls -l'
+                }
+            }
+        }
+        stage('Docker Image Build') { 
+            
+            steps {
+                dir (/Docker_Applications/HVR_Mobility) {
+                sh 'ls'
+                //sh 'sudo /usr/bin/docker build -t hvrmobility . '
+                //sh 'sudo /usr/bin/docker run -d -p 3030:3030 hvrmobility'
+                sh 'cd ..'
+                }
+            }
+        }
+        stage('Docker Image 2 Build') { 
+            
+            steps {
+                dir (/Docker_Applications/mqtt_subscriber_application) {
+                    sh 'ls'
+                    
+                }
+                 
+                
+            }
+        }
+        stage('Done') {
+            steps {
+                sh 'echo "Task Completed Successfully"'
+            }
+        }
+       
+    }
+}
