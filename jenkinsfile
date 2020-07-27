@@ -1,0 +1,59 @@
+pipeline {
+    agent {
+        node {
+            label 'master'
+        }
+    }
+
+    stages {
+
+        stage('initiate pipeline') {
+            steps {
+                sh 'echo "Pipeline Initiated" '
+            }
+        }
+        stage('nuke the workspace') {
+            steps {
+                sh 'sudo rm -rf *'
+                sh 'echo "Workspace Cleared"'
+            }
+        }
+        stage('git clone repository') {
+            steps {
+                sh 'sudo git clone https://github.com/maheshgprasad/${GIT_REPO_NAME}'
+            }
+        }
+        stage('traverse') {
+            steps {
+                sh 'cd ./<dir-name>'
+            }
+        }
+        stage('Docker Image Build') { 
+            
+            dir ('/path1') {
+                sh 'sudo docker build --<docker-options> -t ${DOCKER_IMAGE_1} .'
+                // sh 'sudo docker run $DOCKER_IMAGE_1'
+            }
+            
+            dir ('/path2') {
+                sh 'sudo docker build --<docker-options> -t ${DOCKER_IMAGE_2} .'
+                // sh 'sudo docker run $DOCKER_IMAGE_2'
+            }
+        }
+
+        stage('Docker Image Push') {
+            steps {
+                sh 'sudo docker push $DOCKER_IMAGE_1'
+                sh 'sudo docker push $DOCKER_IMAGE_2'
+                sh 'echo "Docker Push Succesful!"'
+            }
+        }
+        stage('end of pipe') {
+            steps {
+                sh 'echo "Ended....!!"'
+            }
+        }
+
+        
+    }
+}
