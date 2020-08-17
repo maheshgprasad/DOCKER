@@ -1,5 +1,5 @@
 # docker - kubernetes automation projekt
-
+<img src="https://github.com/maheshgprasad/docker/blob/master/flow_jenkins_kubernetes.png"/>
 1. Developer writes, commits and pushes the code to Github Repository
 2. Version Control ensures that the latest version of the updated code is present for use on the repository
 3. Jenkins server is configured to pull the latest version of the committed code from Github.
